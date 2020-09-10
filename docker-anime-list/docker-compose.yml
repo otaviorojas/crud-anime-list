@@ -1,0 +1,27 @@
+version: '3'
+services:
+    docker-mysql:
+        image: mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_PASSWORD=root
+            - MYSQL_DATABASE=school
+        networks: 
+            - java-network
+
+    java1:
+        build:
+            dockerfile: ./Dockerfile
+            context: .
+        image: orojas/java
+        container_name: java-school
+        ports:
+            - "8080:8080"
+        networks: 
+            - java-network
+        depends_on:
+            - "docker-mysql"
+
+networks: 
+    java-network:
+        driver: bridge

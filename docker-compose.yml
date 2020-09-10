@@ -1,0 +1,27 @@
+version: '3'
+services:
+    docker-mysql-spring:
+        image: mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_PASSWORD=root
+            - MYSQL_DATABASE=anime
+        networks: 
+            - java-network
+
+    spring-1:
+        build:
+            dockerfile: ./Dockerfile
+            context: .
+        image: com.br.otaviovrojas/crud-anime-list
+        container_name: crud-anime-list
+        ports:
+            - "8080:8080"
+        networks: 
+            - java-network
+        depends_on:
+            - "docker-mysql-spring"
+
+networks: 
+    java-network:
+        driver: bridge
